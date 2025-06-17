@@ -1,33 +1,112 @@
-HEAD
-# bookstore-app
+# 📚 BookStoreo - Complete Bookstore Management System
 
-This template should help get you started developing with Vue 3 in Vite.
+A full-stack bookstore management application built with **Spring Boot** backend and **Vue.js** frontend, featuring user authentication, book management, inventory tracking, and role-based access control.
 
-## Recommended IDE Setup
+![BookStoreo Banner](https://img.shields.io/badge/BookStoreo-Bookstore%20Management-blue?style=for-the-badge&logo=book)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🌟 **Features**
 
-## Customize configuration
+### 📖 **Book Management**
+- ✅ CRUD operations for books with authors and categories
+- ✅ 39 sample books with famous literature
+- ✅ Advanced search and filtering
+- ✅ Import/Export functionality
+- ✅ Inventory tracking
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 👥 **User Management** 
+- ✅ Role-based authentication (Admin, Manager, Customer, VIP)
+- ✅ 20 sample users with different roles
+- ✅ User profiles with debt tracking
+- ✅ Permission-based access control
 
-## Project Setup
+### 📊 **Business Features**
+- ✅ Sales invoice management
+- ✅ Import receipt tracking
+- ✅ Monthly inventory reports
+- ✅ Debt management system
+- ✅ Payment receipts
 
-```sh
+### 🎨 **Modern UI/UX**
+- ✅ Responsive design with Vuetify
+- ✅ Admin dashboard
+- ✅ Customer interface
+- ✅ Dark/Light theme support
+
+## 🚀 **Quick Start**
+
+### **Prerequisites**
+- ☑️ Node.js 18+ and npm
+- ☑️ Java 17+
+- ☑️ MySQL 8.0+
+- ☑️ Maven 3.6+
+
+### **1. Clone Repository**
+```bash
+git clone https://github.com/PhatNguyenTT2/BookStoreo.git
+cd BookStoreo
+```
+
+### **2. Database Setup**
+```bash
+# Create database and tables
+mysql -u root -p < backend/src/main/resources/create_database_schema.sql
+
+# Insert sample data
+mysql -u root -p < backend/src/main/resources/insert_books_data.sql
+```
+
+### **3. Backend Setup**
+```bash
+cd backend
+# Run Spring Boot application
+./mvnw spring-boot:run
+# Backend will be available at http://localhost:8080
+```
+
+### **4. Frontend Setup**
+```bash
+# Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Start development server
 npm run dev
+# Frontend will be available at http://localhost:5173
 ```
 
-### Compile and Minify for Production
+## 🔐 **Default Login Credentials**
 
-```sh
-npm run build
-```
-=======
-# bookstore-app
->>>>>>> 149a3af9b111cb745c79de95cf2d57e363890c2c
+All users have the same password for testing: **`admin123`**
+
+### **Admin Accounts:**
+- **Username:** `admin` - Full administrative access
+- **Username:** `manager` - Limited administrative access
+
+### **Customer Accounts:**
+- **Username:** `customer1` - Regular customer
+- **Username:** `bookworm` - VIP customer with debt
+- **Username:** `fantasy_girl` - VIP customer
+
+## 🛠️ **Technology Stack**
+
+### **Backend:**
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green?logo=spring-boot)
+![Java](https://img.shields.io/badge/Java-17-orange?logo=java)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql)
+![Maven](https://img.shields.io/badge/Maven-3.6+-red?logo=apache-maven)
+
+### **Frontend:**
+![Vue.js](https://img.shields.io/badge/Vue.js-3.x-green?logo=vue.js)
+![Vuetify](https://img.shields.io/badge/Vuetify-3.x-blue?logo=vuetify)
+![Vite](https://img.shields.io/badge/Vite-6.x-yellow?logo=vite)
+![Pinia](https://img.shields.io/badge/Pinia-3.x-orange?logo=pinia)
+
+---
+
+<div align="center">
+
+**🚀 Built with ❤️ by PhatNguyenTT2**
+
+[![GitHub](https://img.shields.io/badge/GitHub-PhatNguyenTT2-black?logo=github)](https://github.com/PhatNguyenTT2)
+[![BookStoreo](https://img.shields.io/badge/BookStoreo-Live%20Demo-blue?logo=book)](https://github.com/PhatNguyenTT2/BookStoreo)
+
+</div>
