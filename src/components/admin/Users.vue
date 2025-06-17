@@ -1,6 +1,6 @@
 <script setup>
 import { useUser } from '@/data/user'
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 
 import TitleText from './texts/TitleText.vue'
 import SearchFrame from '@/components/admin/frames/SearchFrame.vue'
@@ -20,11 +20,30 @@ const editingUser = ref(null)
 const addingUser = ref(false)
 
 // load danh sách khi mount
-onMounted(userStore.fetchUsers)
+onMounted(() => {
+  userStore.fetchUsers()
+})
+
+// Computed để filter users based on search query
+const filteredUsers = computed(() => {
+  const q = searchQuery.value.toLowerCase()
+  return userStore.users.filter(item =>
+    item.id.toLowerCase().includes(q) ||
+    item.username.toLowerCase().includes(q) ||
+    item.email.toLowerCase().includes(q) ||
+    (item.firstName + ' ' + item.lastName).toLowerCase().includes(q)
+  )
+})
 
 // VIEW
-function handleViewUser(user) {
-  selectedUser.value = user
+function handleViewUser(userId) {
+  console.log('[ViewUser] userId:', userId)
+  const user = userStore.users.find(u => u.id === userId)
+  if (user) {
+    selectedUser.value = user
+  } else {
+    console.error('Không tìm thấy user với ID:', userId)
+  }
 }
 function closeDetail() {
   selectedUser.value = null
@@ -37,24 +56,44 @@ function handleAddUser() {
 function closeAddUser() {
   addingUser.value = false
 }
-function addUser(newUser) {
-  // ... gọi API tạo user ở đây nếu cần
-  addingUser.value = false
+async function addUser(newUser) {
+  try {
+    await userStore.addUser(newUser)
+  } catch (e) {
+    console.error('Tạo user thất bại', e)
+  } finally {
+    addingUser.value = false
+  }
 }
 
 // EDIT
-function handleEditUser(user) {
-  editingUser.value = { ...user }
+function handleEditUser(userId) {
+  console.log('[EditUser] userId:', userId)
+  const user = userStore.users.find(u => u.id === userId)
+  if (user) {
+    editingUser.value = { ...user }
+  } else {
+    console.error('Không tìm thấy user để edit với ID:', userId)
+  }
 }
 function closeEdit() {
   editingUser.value = null
 }
-async function handleUpdateUser(payload) {
+async function handleUpdateUser(userData) {
   try {
-    await userStore.updateUserAPI(payload.id, payload)
-    editingUser.value = null
+    await userStore.updateUserAPI(userData.id, {
+      username: userData.username,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      phone: userData.phone,
+      dob: userData.dob,
+      roles: userData.roles
+    })
   } catch (e) {
     console.error('Cập nhật user thất bại', e.response?.data || e.message)
+  } finally {
+    editingUser.value = null
   }
 }
 
@@ -69,7 +108,7 @@ async function handleDeleteUser(userId) {
 </script>
 
 <template>
-  <div style="overflow-y: auto;">
+  <div style="height:100%; overflow-y:auto;">
     <!-- ADD -->
     <AddUser v-if="addingUser" @close="closeAddUser" @add-user="addUser" class="user-detail-full" />
 
@@ -82,7 +121,7 @@ async function handleDeleteUser(userId) {
         <SearchFrame v-model="searchQuery" class="right" />
       </div>
 
-      <UserTable :search="searchQuery" @view-user="handleViewUser" @edit-user="handleEditUser"
+      <UserTable :items="filteredUsers" @view-user="handleViewUser" @edit-user="handleEditUser"
         @delete-user="handleDeleteUser" />
 
       <ButtonCRUD @click="handleAddUser">
@@ -105,7 +144,6 @@ async function handleDeleteUser(userId) {
 <style scoped>
 .content {
   width: 100%;
-  height: 100%;
   padding: 20px;
 }
 
@@ -117,12 +155,15 @@ async function handleDeleteUser(userId) {
 }
 
 .left {
-  display: flex;
-  align-items: center;
+  flex: 1
 }
 
 .right {
-  flex-shrink: 0;
-  align-items: center;
+  flex-shrink: 0
+}
+
+.user-detail-full {
+  width: 100%;
+  height: 100%;
 }
 </style>

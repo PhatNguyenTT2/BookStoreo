@@ -82,7 +82,7 @@ export const useUser = defineStore('user', () => {
     if (idx !== -1) users.value[idx] = { ...updated }
   }
 
- async function updateUserAPI(userId, payload) {
+  async function updateUserAPI(userId, payload) {
     loading.value = true;
     try {
       const { data } = await api.put(`/users/${userId}`, payload);
@@ -123,7 +123,6 @@ export const useUser = defineStore('user', () => {
     }
   }
 
-
   return {
     users,
     searchQuery,
@@ -132,6 +131,7 @@ export const useUser = defineStore('user', () => {
     error,
     fetchUsers,
     addUser,
+    updateUser,
     updateUserAPI,
     deleteUserAPI
   }
